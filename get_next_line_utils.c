@@ -1,34 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: whendrik <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/30 18:32:31 by whendrik          #+#    #+#             */
-/*   Updated: 2023/04/07 16:22:05 by whendrik         ###   ########.fr       */
+/*   Created: 2023/04/07 20:10:02 by whendrik          #+#    #+#             */
+/*   Updated: 2023/04/07 22:17:14 by whendrik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include <stddef.h>
+#include "get_next_line.h"
 
-# define FD_MAX 1000
-# ifndef BUFFER_SIZE
-#	define BUFFER_SIZE 42
-# endif
-
-char	*get_next_line(int fd);
-
-typedef struct	s_list
+int found_newline(t_list *stash)
 {
-	char			*content;
-	struct	s_list	*next;
-}				t_list;
+	int		i;
+	t_list	*current;
 
-size_t	strlen_chr(const char *str, const char c);
-char	*ft_recat(char **dst, char *str);
-int		read_next(t_files *file, int fd);
+	if (stash == NULL)
+		return (0);
+	 current = ft_lst_get_last(stash);
+	while (current->content[i])
+	{
+		if (current->content[i] == '\n')
+			return (1);
+		i++;
+	} 
+	return (0);
+}
 
-#endif
+t_list	ft_lst_get_last(t_list *stash)
+{
+	t_list	*current;
+
+	while (current && current->next)
+		current = current->next;
+	return (current);
+}
+
