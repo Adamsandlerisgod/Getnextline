@@ -6,7 +6,7 @@
 /*   By: whendrik <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 20:10:02 by whendrik          #+#    #+#             */
-/*   Updated: 2023/04/07 22:17:14 by whendrik         ###   ########.fr       */
+/*   Updated: 2023/04/09 13:20:41 by whendrik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,3 +38,53 @@ t_list	ft_lst_get_last(t_list *stash)
 	return (current);
 }
 
+void	extract_line(t_list *stash, char **line)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	while (stash)
+	{
+		i = 0;
+		while (stash->content[i])
+		{
+			if (stash->content[i] == '\n')
+			{
+				j++;
+				break;
+			}
+			i++;
+			j++;
+		}
+		stash = stash->next; 
+	}
+	*line = malloc(sizeof(char) * (j + 1)); 
+	if (*line == NULL)
+		return;
+}
+
+int		ft_strlen(const char *string)
+{
+	int	len;
+
+	len = 0;
+	while(*(str++))
+		len++;
+	return (len);
+}
+
+void	free_stash(t_list *stash)
+{
+	t_list	*current;
+	t_list	*next;
+
+	current = stash;
+	while (current)
+	{
+		free(current->content);
+		next = current->next;
+		free(current);
+		current = next;
+	}
+}	

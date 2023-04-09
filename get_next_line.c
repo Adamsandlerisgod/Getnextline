@@ -6,7 +6,7 @@
 /*   By: whendrik <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 18:26:48 by whendrik          #+#    #+#             */
-/*   Updated: 2023/04/07 21:45:37 by whendrik         ###   ########.fr       */
+/*   Updated: 2023/04/09 13:20:44 by whendrik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ char	*get_next_line(int fd)
 	if (stash == NULL)
 		return NULL;
 //	2. Extract from stash to Line
-
+	extract_line(stash, &line)
 //	3. Clean up stash
-
+	clean_stash(&stash);
 }
 
 void	read_and_stash(t_list **stash, int *red_ptr, int fd) 
@@ -39,11 +39,11 @@ void	read_and_stash(t_list **stash, int *red_ptr, int fd)
 {
 	char *buf;
 
-	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1)); 
-	if (buf == NULL)
-		return ;
 	while (found_newline(*stash) == 0 && *red_ptr != 0) //stash is referenced as *stash in this bc we're not going to modify it
 	{
+		buf = malloc(sizeof(char) * (BUFFER_SIZE + 1)); 
+		if (buf == NULL)
+			return ;
 		*red_ptr = (int) read(fd, buf, BUFFER_SIZE);
 		if ((*stash == NULL && *red_ptr == 0) || *red_ptr == -1)
 		{
@@ -51,8 +51,9 @@ void	read_and_stash(t_list **stash, int *red_ptr, int fd)
 			return;
 		}
 		buf [*red_ptr] = '\0'; 
+		add_to_stash(buf, stash, *red_ptr);
+		free(buf);
 	}
-	add_to_stash(buf, stash, *red_ptr);
 }
 
 void	add_to_stash(char *buf, t_list **stash, int red)
@@ -84,18 +85,64 @@ void	add_to_stash(char *buf, t_list **stash, int red)
 	last->next = new_node;
 	return;
 }
-
-void	extract_line
+ 
+void	extract_linei(t_list *stash, char **line)
 /*Extracts all characters from our stash and stores them in our line*/
+{
+	int		i;
+	int		j;
+
+	if (*stash == NULL)
+		return;
+	generate_line(stash, line);
+	if (*line == NULL)
+		return;
+	while (stash)
+	{
+		i = 0;
+		stash = stash->next;
+		while (stash->content[i])
+		{
+			if (stash->content[i] == '\n')
+			{
+				(*line)[j++] = stash->content[i];
+				break;
+			}
+			(*line)[j++] = stash->content[i];
+			i++;
+		}
+		stash = stash->next;
+	}
+	(*line)[j] == '\0';
+}
 
 void	clean_line
 /* After extracting line from stash we don't need those characters anymore
 	Function clears the stash only so that the characters that have not been
 	returned at the end of our gnl remain in our static stash*/
+{
+	t_list	*clean_node;
+	t-list	*last;
+	int		i;
 
-
-
-
+	clean_node = malloc(sizeof(t_list));
+	if (stash == NULL || clean_node == NULL)
+		return;
+	clean_node->next = NULL;
+	i = 0;
+	last = ft_lst_get_last(*stash);
+	while (last->content[i] && last->content[i] != '\n')
+		i++;	
+	while (last->content && last->content[i] == '\n')
+		i++;
+	clean_node->content = malloc(sizeof(char) * (ft_strlen(last->content) - i) + 1);
+	if (clean_node->content == NULL)
+		return;
+	j = 0;
+	while (last->content[i])
+		clean_node->content[j++] = last->content[i++];
+	clean_node->content[j] = '\0';
+	 
 int	main(void) 
 {	
 	int	fd;
