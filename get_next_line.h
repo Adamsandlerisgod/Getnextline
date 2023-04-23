@@ -13,6 +13,7 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 # include <stddef.h>
+#include <stdlib.h>
 
 # define FD_MAX 1000
 # ifndef BUFFER_SIZE
@@ -29,6 +30,6 @@ typedef struct	s_list
 
 size_t	strlen_chr(const char *str, const char c);
 char	*ft_recat(char **dst, char *str);
-int		read_next(t_files *file, int fd);
+int		read_next(t_list *file, int fd);
 
 #endif

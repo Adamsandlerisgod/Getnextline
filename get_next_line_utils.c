@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <fcntl.h>
 #include "get_next_line.h"
+
+t_list	ft_lst_get_last(t_list *stash);
 
 int found_newline(t_list *stash)
 {
@@ -33,9 +36,10 @@ t_list	ft_lst_get_last(t_list *stash)
 {
 	t_list	*current;
 
+	current = stash;
 	while (current && current->next)
 		current = current->next;
-	return (current);
+	return (*current);
 }
 
 void	extract_line(t_list *stash, char **line)
@@ -64,7 +68,7 @@ void	extract_line(t_list *stash, char **line)
 		return;
 }
 
-int		ft_strlen(const char *string)
+int		ft_strlen(const char *str)
 {
 	int	len;
 

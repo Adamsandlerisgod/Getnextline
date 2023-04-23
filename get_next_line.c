@@ -12,27 +12,7 @@
 
 #include "get_next_line.h"
 #include <fcntl.h>
-//Get the next line
-char	*get_next_line(int fd)
-{
-	static	t_list	*stash;
-	char			*line;
-	int				red;
-	
-	if (BUFFER_SIZE =< 0 || fd < 0 || read(fd, &line, 0) < 0)
-		return (NULL);
-	stash = NULL;
-	line = NULL;
-	red = 1;
-//	1. Read from fd and add to linked list
-	read_and_stash(&stash, &red, fd);  
-	if (stash == NULL)
-		return NULL;
-//	2. Extract from stash to Line
-	extract_line(stash, &line)
-//	3. Clean up stash
-	clean_stash(&stash);
-}
+#include <stdlib.h>
 
 void	read_and_stash(t_list **stash, int *red_ptr, int fd) 
 /*Uses read to add characters to the stash*/
@@ -76,7 +56,7 @@ void	add_to_stash(char *buf, t_list **stash, int red)
 		new_node->content[i] = buf[i];
 		i++;
 	}
-	if (*stash = NULL)
+	if (*stash == NULL)
 	{
 		*stash = new_node;
 		return;
@@ -113,10 +93,10 @@ void	extract_linei(t_list *stash, char **line)
 		}
 		stash = stash->next;
 	}
-	(*line)[j] == '\0';
+	(*line)[j] = '\0';
 }
 
-void	clean_line
+void	clean_stash(t_list **stash)
 /* After extracting line from stash we don't need those characters anymore
 	Function clears the stash only so that the characters that have not been
 	returned at the end of our gnl remain in our static stash*/
@@ -143,6 +123,27 @@ void	clean_line
 		clean_node->content[j++] = last->content[i++];
 	clean_node->content[j] = '\0';
 	 
+//Get the next line
+char	*get_next_line(int fd)
+{
+	static	t_list	*stash;
+	char			*line;
+	int				red;
+	
+	if (BUFFER_SIZE <= 0 || fd < 0 || read(fd, &line, 0) < 0)
+		return (NULL);
+	stash = NULL;
+	line = NULL;
+	red = 1;
+//	1. Read from fd and add to linked list
+	read_and_stash(&stash, &red, fd);  
+	if (stash == NULL)
+		return NULL;
+//	2. Extract from stash to Line
+	extract_line(stash, &line)
+//	3. Clean up stash
+	clean_stash(&stash);
+}
 int	main(void) 
 {	
 	int	fd;
