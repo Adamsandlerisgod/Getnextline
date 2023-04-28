@@ -12,24 +12,18 @@
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# include <stddef.h>
-#include <stdlib.h>
+# include <stdlib.h>
+# include <unistd.h>
 
-# define FD_MAX 1000
 # ifndef BUFFER_SIZE
-#	define BUFFER_SIZE 42
+#  define BUFFER_SIZE 1000
 # endif
-
 char	*get_next_line(int fd);
 
-typedef struct	s_list
-{
-	char			*content;
-	struct	s_list	*next;
-}				t_list;
-
-size_t	strlen_chr(const char *str, const char c);
-char	*ft_recat(char **dst, char *str);
-int		read_next(t_list *file, int fd);
+size_t	ft_strlen(char *string, char z);
+char	*ft_strjoin(char *str1, char *str2);
+void	ft_bzero(void *str, size_t size);
+void	*ft_calloc(size_t count, size_t size);
+char	*ft_strchr(const char *haystack, int needle);
 
 #endif

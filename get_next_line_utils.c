@@ -12,83 +12,88 @@
 
 #include <fcntl.h>
 #include "get_next_line.h"
+#include <stdlib.h>
 
-t_list	ft_lst_get_last(t_list *stash);
-
-int found_newline(t_list *stash)
-{
-	int		i;
-	t_list	*current;
-
-	if (stash == NULL)
-		return (0);
-	 current = ft_lst_get_last(stash);
-	while (current->content[i])
-	{
-		if (current->content[i] == '\n')
-			return (1);
-		i++;
-	} 
-	return (0);
-}
-
-t_list	ft_lst_get_last(t_list *stash)
-{
-	t_list	*current;
-
-	current = stash;
-	while (current && current->next)
-		current = current->next;
-	return (*current);
-}
-
-void	extract_line(t_list *stash, char **line)
+size_t	ft_strlen(char *string, char z)
 {
 	int	i;
-	int	j;
 
-	j = 0;
-	while (stash)
+	i = 0;
+	if (!string)
+		return (i);
+	if (z == '\0')
 	{
-		i = 0;
-		while (stash->content[i])
-		{
-			if (stash->content[i] == '\n')
-			{
-				j++;
-				break;
-			}
+			while (string[i])
+				i++;
+			return (i);
+	}
+	else
+	{
+		while(string[i] != z && string[i])
 			i++;
-			j++;
+		if (string[i] == z)
+			i++;	
+	}
+	return (i);
+}
+
+char	*ft_strjoin(char *str1, char *str2)
+{
+		int	i;
+		int	j;
+		char	*totalstr;
+		int	totalsize;
+
+		totalsize = ft_strlen(str1, '\0') + ft_strlen(str2, '\0');
+		totalstr = malloc((totalsize + 1) * sizeof(char));
+		i = 0;
+		if (!totalstr || !str1 || !str2)
+			return (NULL);
+		while (str1[i])
+		{
+			totalstr[i] = str1[i];
+			i++;
 		}
-		stash = stash->next; 
-	}
-	*line = malloc(sizeof(char) * (j + 1)); 
-	if (*line == NULL)
-		return;
+		j = 0;
+		while (str2[j])
+			totalstr[i++] = str2[j++];
+		totalstr[i] = '\0';
+		return (totalstr);
 }
 
-int		ft_strlen(const char *str)
+void	ft_bzero(void *str, size_t size)
 {
-	int	len;
+		unsigned int	i;
+		char	*ptr_str;
 
-	len = 0;
-	while(*(str++))
-		len++;
-	return (len);
+		ptr_str = (char *)str;
+		i = 0;
+		while (i < size)
+			ptr_str[i++] = '\0';
 }
 
-void	free_stash(t_list *stash)
+void	*ft_calloc(size_t count, size_t size)
 {
-	t_list	*current;
-	t_list	*next;
+	char	*str;
 
-	current = stash;
-	while (current)
-	{
-		free(current->content);
-		next = current->next;
-		free(current);
-		current = next;
-	}
-}	
+	str = malloc(count * size);
+	if (!str)
+		return NULL;
+	ft_bzero(str, count * size);
+	return (str);	
+}
+
+char	*ft_strchr(const char *haystack, int needle)
+{
+		int		i;
+		char	*str;
+		
+		i = 0;
+		str = (char *)haystack;
+		while (str[i] != needle && str[i] != '\0')
+			i++;
+		if (str[i] == needle)
+			return (&str[i]);
+		else
+			return (NULL);
+}
