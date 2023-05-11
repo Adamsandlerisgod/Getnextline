@@ -17,19 +17,19 @@
 char    *ft_free_join(char *res, char *buffer)
 {
         // char    *temp;
-        char    *yeet;
-        // temp = ft_strjoin(res, buffer);char* str_concat(char* str1, char* str2) {
-        size_t str1_len;
+        char    *totalstr;
+        // temp = ft_strjoin(res, buffer);
+        size_t res_len;
         
-        str1_len = strlen(res);
-        yeet = (char*)malloc(str1_len + BUFFER_SIZE + 1);
-        ft_memcpy(yeet, res, str1_len);
-        ft_memcpy(yeet + str1_len, buffer, BUFFER_SIZE + 1);
+        res_len = ft_strlen(res, '\0');
+        totalstr = (char*)malloc(res_len + BUFFER_SIZE + 1);
+        ft_memcpy(totalstr, res, res_len);
+        ft_memcpy(totalstr + res_len, buffer, BUFFER_SIZE + 1);
        
         // ft_strlen(res(res, buffer, BUFFER_SIZE);
         free(buffer);
         free(res);
-        return (yeet);
+        return (totalstr);
 }
 char    *read_file(int fd, char *res)
 {
