@@ -12,17 +12,24 @@
 
 #include "get_next_line.h"
 #include <stdio.h>
-#include <stdlib.h>
+#include <string.h>
 
 char    *ft_free_join(char *res, char *buffer)
 {
-        char    *temp;
-
-        temp = ft_strjoin(res, buffer);
-        // temp = substr()
+        // char    *temp;
+        char    *yeet;
+        // temp = ft_strjoin(res, buffer);char* str_concat(char* str1, char* str2) {
+        size_t str1_len;
+        
+        str1_len = strlen(res);
+        yeet = (char*)malloc(str1_len + BUFFER_SIZE + 1);
+        ft_memcpy(yeet, res, str1_len);
+        ft_memcpy(yeet + str1_len, buffer, BUFFER_SIZE + 1);
+       
+        // ft_strlen(res(res, buffer, BUFFER_SIZE);
         free(buffer);
         free(res);
-        return (temp);
+        return (yeet);
 }
 char    *read_file(int fd, char *res)
 {

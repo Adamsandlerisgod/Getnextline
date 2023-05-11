@@ -16,7 +16,7 @@
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1000000 
+#  define BUFFER_SIZE 10000000000 
 # endif
 char	*get_next_line(int fd);
 
@@ -25,5 +25,5 @@ char	*ft_strjoin(char *str1, char *str2);
 void	ft_bzero(void *str, size_t size);
 void	*ft_calloc(size_t count, size_t size);
 char	*ft_strchr(const char *haystack, int needle);
-
+void	*ft_memcpy(void *dst, const void *src, size_t n);
 #endif
