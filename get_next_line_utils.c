@@ -15,27 +15,24 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-// void	ft_bzero(void *str, size_t size)
-// {
-// 		unsigned int	i;
-// 		char	*ptr_str;
+void	*specific_calloc(size_t count, size_t size)
+{
+	char				*tmp;
+	char				*string;
+	unsigned int		i;
 
-// 		ptr_str = (char *)str;
-// 		i = 0;
-// 		while (i < size)
-// 			ptr_str[i++] = '\0';
-// }
-
-// void	*ft_calloc(size_t count, size_t size)
-// {
-// 	char	*str;
-
-// 	str = malloc(count * size);
-// 	if (!str)
-// 		return NULL;
-// 	ft_bzero(str, count * size);
-// 	return (str);	
-// }
+	tmp = (void *)malloc(count * size);
+	if (tmp == NULL)
+		return (NULL);
+	i = 0;
+	string = (char *)tmp;
+	while (i < (unsigned int)(count * size))
+	{
+		string[i] = '\0';
+		i++;
+	}
+	return (tmp);
+}
 
 size_t	ft_strlen(char *string, char z)
 {
@@ -46,43 +43,19 @@ size_t	ft_strlen(char *string, char z)
 		return (i);
 	if (z == '\0')
 	{
-			while (string[i])
-				i++;
-			return (i);
+		while (string[i])
+			i++;
+		return (i);
 	}
 	else
 	{
-		while(string[i] != z && string[i])
+		while (string[i] != z && string[i])
 			i++;
 		if (string[i] == z)
-			i++;	
+			i++;
 	}
 	return (i);
 }
-
-// char	*ft_strjoin(char *str1, char *str2)
-// {
-// 		unsigned int	i;
-// 		int	j;
-// 		char	*totalstr;
-// 		int	totalsize;
-
-// 		totalsize = ft_strlen(str1, '\0') + ft_strlen(str2, '\0');
-// 		totalstr = malloc((totalsize + 1) * sizeof(char));
-// 		i = 0;
-// 		if (!totalstr || !str1 || !str2)
-// 			return (NULL);
-// 		while (ft_strlen(str1, '\0') > i)
-// 		{
-// 			totalstr[i] = str1[i];
-// 			i++;
-// 		}
-// 		j = 0;
-// 		while (str2[j])
-// 			totalstr[i++] = str2[j++];
-// 		totalstr[i] = '\0';
-// 		return (totalstr);
-// }
 
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
@@ -100,15 +73,29 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 
 char	*ft_strchr(const char *haystack, int needle)
 {
-		int		i;
-		char	*str;
-		
-		i = 0;
-		str = (char *)haystack;
-		while (str[i] != needle && str[i] != '\0')
-			i++;
-		if (str[i] == needle)
-			return (&str[i]);
-		else
-			return (NULL);
+	int		i;
+	char	*str;
+
+	i = 0;
+	str = (char *)haystack;
+	while (str[i] != needle && str[i] != '\0')
+		i++;
+	if (str[i] == needle)
+		return (&str[i]);
+	else
+		return (NULL);
+}
+
+char	*ft_free_join(char *res, char *buffer)
+{
+	char	*totalstr;
+	size_t	res_len;
+
+	res_len = ft_strlen(res, '\0');
+	totalstr = (char *)malloc(res_len + BUFFER_SIZE + 1);
+	ft_memcpy(totalstr, res, res_len);
+	ft_memcpy(totalstr + res_len, buffer, BUFFER_SIZE + 1);
+	free(buffer);
+	free(res);
+	return (totalstr);
 }
