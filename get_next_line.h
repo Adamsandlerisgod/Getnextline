@@ -16,14 +16,13 @@
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10000000000 
+#  define BUFFER_SIZE 42 
 # endif
-char	*get_next_line(int fd);
 
+char	*get_next_line(int fd);
+void	*specific_calloc(size_t count, size_t size);
 size_t	ft_strlen(char *string, char z);
-char	*ft_strjoin(char *str1, char *str2);
-void	ft_bzero(void *str, size_t size);
-void	*ft_calloc(size_t count, size_t size);
+char	*ft_free_join(char *res, char *buffer);
 char	*ft_strchr(const char *haystack, int needle);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 #endif
